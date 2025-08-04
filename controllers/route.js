@@ -87,7 +87,7 @@ const trackFlight = async (req, res) =>{
     }
     prog = prog / (ship.hops.length-1);
     prog= prog*100;
-    res.status(200).json({success : true , message : "Shipment tracking details retrieved."});
+    res.status(200).json({success : true , message : "Shipment tracking details retrieved.", progress: prog});
 
 };
 

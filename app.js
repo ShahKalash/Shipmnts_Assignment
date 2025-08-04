@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const connectDB = require("./db/connect");
+const {trackFlight} = require("./controllers/route");
 
 const PORT = process.env.PORT || 3000;
 
@@ -16,6 +17,8 @@ app.get("/", (req, res) => {
 //middleware
 app.use("/shipments", shipment_routes);
 app.use("/flights", flight_routes);
+app.use("/track/shipment/:shipment_number").get(trackFlight);
+
 // app.use("/api/venue/", venue_routes);
 
 
