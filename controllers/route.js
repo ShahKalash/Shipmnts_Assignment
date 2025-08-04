@@ -1,5 +1,6 @@
 const Shipment = require("../models/shipment");
 const Route = require("../models/route");
+const flight = require("../models/flight");
 // // const Transaction = require("../models/transaction");
 
 // const getVenue = async (req, res) =>{
@@ -66,7 +67,29 @@ const addRoute = async (req, res) =>{
 
 };
 
+const trackFlight = async (req, res) =>{
+    const {shipment_number} = req.params;
+    const ship = await Shipment.findOne({shipment_number : shipment_number});
+    if (!ship)
+    {
+        res.status(400).json({success : false , message : "Shipment with ID not found"});
+        return;
+    }
+    let prog = 0;
+    let tot = 0;
+    for (let i = 0; i<ship.hops.length-1; i++)
+    {
+        let from = ship.hops[i];
+        let to = ship.hops[i+1];
+        let flight = await flight.findOne({from:from, to:to});
+        if (flight.status === "landed")
+            prog++;
+    }
+    prog = prog / (ship.hops.length-1);
+    prog= prog*100;
+    res.status(200).json({success : true , message : "Shipment tracking details retrieved."});
 
+};
 
 // const deleteVenue = async (req, res) =>{
 //     console.log(req.params);
@@ -76,5 +99,5 @@ const addRoute = async (req, res) =>{
 //     res.status(200).json({message : "success"});
 // };
 
-module.exports = {addRoute};
+module.exports = {addRoute, trackFlight};
 
