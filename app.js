@@ -3,9 +3,10 @@ const express = require("express");
 const app = express();
 const connectDB = require("./db/connect");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
-// const venue_routes = require("./routes/venue");
+const shipment_routes = require("./routes/shipment");
+const flight_routes = require("./routes/flight");
 
 app.use(express.json()); 
 app.get("/", (req, res) => {
@@ -13,7 +14,8 @@ app.get("/", (req, res) => {
 });
 
 //middleware
-// app.use("/api/", venue_routes);
+app.use("/shipments", shipment_routes);
+app.use("/flight", flight_routes);
 // app.use("/api/venue/", venue_routes);
 
 
