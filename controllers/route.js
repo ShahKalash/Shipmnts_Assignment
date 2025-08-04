@@ -37,6 +37,7 @@ const addRoute = async (req, res) =>{
     if (!r)
     {
         res.status(400).json({success : false, message : "No consecutive hops"});
+        return;
     }
     await Route.deleteOne({origin : previous_hop, destination : next_hop});
     let shipment = Shipment.findOne({shipment_number : shipment_number});
@@ -46,6 +47,7 @@ const addRoute = async (req, res) =>{
     if (!ship)
     {
         res.status(400).json({success : false, message : "Shipment with Id not found"});
+        return;
     }
     const arr = [];
     for (let hop of ship.hops)
@@ -63,6 +65,9 @@ const addRoute = async (req, res) =>{
 
 
 };
+
+
+
 // const deleteVenue = async (req, res) =>{
 //     console.log(req.params);
 //     let {location_code} = req.params;

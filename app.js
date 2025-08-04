@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 
 //middleware
 app.use("/shipments", shipment_routes);
-app.use("/flight", flight_routes);
+app.use("/flights", flight_routes);
 // app.use("/api/venue/", venue_routes);
 
 

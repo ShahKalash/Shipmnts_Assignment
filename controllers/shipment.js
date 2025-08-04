@@ -46,7 +46,7 @@ const addShipment = async (req, res) =>{
     }
     Route.create({origin : origin, destination: destination});
     Shipment.create({origin : origin, destination:destination,shipment_number:shipment_number, hops : [origin, destination]});
-    res.status(200).json({success : true, message : "shipment created successfully.", data : {shipment_number: shipment_number,
+    res.status(201).json({success : true, message : "shipment created successfully.", data : {shipment_number: shipment_number,
             hops: [origin, destination]
     }});
 

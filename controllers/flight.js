@@ -20,7 +20,7 @@ const addFlight = async (req, res) =>{
         return;
     }
 
-    Flight.create(req.body);
+    await Flight.create(req.body);
     let text1 = from;
     text1 = text1.concat("-");
     text1 = text1.concat(carrier);
@@ -28,7 +28,7 @@ const addFlight = async (req, res) =>{
     text1 = text1.concat(to);
     const flight = await Flight.findOne({flight_number : flight_number});
     console.log(flight);
-    res.status(200).json({success : true , message : "Flight information added successfully.", data:{
+    res.status(201).json({success : true , message : "Flight information added successfully.", data:{
         shipment_number:shipment_number,
         flight_number : flight.flight_number,
         flight_path : text1,
@@ -41,15 +41,20 @@ const addFlight = async (req, res) =>{
 };
 
 const updateFlight = async(req,res)=>{
+    console.log("reached");
     const {flight_number} = req.params;
     const {status} = req.body;
-    const flight =await Flight.findOne({flight_number: flight_number});
+    console.log(flight_number);
+    const flight = await Flight.findOne({flight_number: flight_number});
+    console.log(flight);
     let msg = "Flight with ID '";
     msg = msg.concat(flight_number);
     msg = msg.concat("' not found");
-    if (!flight)
+    if (flight)
     {
-        res.status(400).json({success : false , message : "Flight status updated successfully.", data:
+        flight.status = status;
+        await flight.save();
+        res.status(200).json({success : true , message : "Flight status updated successfully.", data:
             {
                 flight_number : flight_number,
                 status:status
@@ -57,9 +62,7 @@ const updateFlight = async(req,res)=>{
         });
         return;
     }
-    flight.status = status;
-    await flight.save();
-    res.status(200).json({success : true , message : msg});
+    res.status(400).json({success : false , message : msg});
 
 };
 
