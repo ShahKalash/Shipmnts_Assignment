@@ -81,8 +81,8 @@ const trackFlight = async (req, res) =>{
     {
         let from = ship.hops[i];
         let to = ship.hops[i+1];
-        let flight = await flight.findOne({from:from, to:to});
-        if (flight.status === "landed")
+        let fl = await flight.findOne({from:from, to:to});
+        if (fl.status === "landed")
             prog++;
     }
     prog = prog / (ship.hops.length-1);

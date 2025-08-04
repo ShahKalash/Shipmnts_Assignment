@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 //middleware
 app.use("/shipments", shipment_routes);
 app.use("/flights", flight_routes);
-app.use("/track/shipment/:shipment_number").get(trackFlight);
+app.get("/track/shipment/:shipment_number", trackFlight);
 
 // app.use("/api/venue/", venue_routes);
 
